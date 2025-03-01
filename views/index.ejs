@@ -1,34 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="pt">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MyApp</title>
-    <link rel="stylesheet" href="stylesheets/style.css">
-
+    <link rel="stylesheet" href="/style7.css">
+    <title>Quadrado de Pontos</title>
 </head>
-
 <body>
-    <% if (user) { %>
-        <h1>Bem-vindo, <%= user.username %>!</h1>
-        <form action="/autenticacao/logout" method="POST">
-            <input type="submit" value="Sair">
-        </form>
-        <% } else { %>
-            <p>
-                <a href="/autenticacao/login">Entrar</a>
-            </p>
-            <p>
-                <a href="/usuarios/cadastrar">Cadastrar Usuário</a>
-            </p>
+    <div class="header">
+        <div class="header1">
+            <button onclick="startGame()">Iniciar Jogo</button>
+        </div>
+        <div class="header2">
+            <p class="p">Pontuação: <span id="score">0</span></p>
+        </div>
+        <div class="header3">
+            <p class="p">Comandos aumentar velocidade (+) diminuir velocidade (-) direção (←) (↑) (↓) (→)</p>
+        </div>
+    </div>
+    
+    <div class="grid" id="grid"></div>
 
-            <p>
-                <a href="/produtos/cadastrar">Cadastrar Produto</a>
-            </p>
-
-            <% } %>
+    <script src="/script.js"></script>
 </body>
-
 </html>
