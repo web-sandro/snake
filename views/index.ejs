@@ -7,6 +7,74 @@
     <title>Quadrado de Pontos</title>
 </head>
 <body>
+    <style>
+        body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: rgb(87, 132, 230);
+    overflow: hidden;
+}
+.grid {
+    display: grid;
+    gap: 0;
+    background: rgb(107, 150, 107);
+}
+.dot {
+    width: 20px;
+    height: 20px;
+    background-color:  rgb(107, 150, 107);
+    border-radius: 50%;
+    transition: background-color 0.2s ease-in-out;
+}
+.black { background-color: black; }
+.red { background-color: red; }
+.blue { background-color: blue; }
+.yellow { background-color: yellow; }
+.green { background-color: green; }
+.purple { background-color: purple; }
+button {
+    padding: 3px 10px;
+    cursor: pointer;
+    background-color: #008CBA;
+    color: white;
+    border: 1px solid #070707;
+    border-radius: 5px;
+    transition: background 0.3s;
+}
+button:hover {
+    background-color: #005f7a;
+}
+
+.header {
+    display: flex;
+    gap: 5px;
+    margin: 5px;
+    width: 86.5vw;
+    height: 20px;
+    margin: 5px;
+}
+.header1 {
+    width: 6.7vw;
+    height: 20px;
+}
+.header2 {
+    width: 15vw;
+    height: 20px;
+    color: white;
+}
+.header3 {
+    width: 50vw;
+    height: 20px;
+    color: white;
+}
+.p {
+    margin: 0px;
+    font-size: 20px;
+}
+    </style>
         <div class="header">
             <div class="header1">
                 <button onclick="startGame()">Iniciar Jogo</button>
