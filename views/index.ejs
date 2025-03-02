@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quadrado de Pontos</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: black;
+            overflow: hidden;
+        }
+        .grid {
+            display: grid;
+            gap: 0;
+        }
+        .dot {
+            width: 10px; /* Tamanho do ponto */
+            height: 10px;
+            background-color: gray;
+            border-radius: 50%;
+            transition: background-color 0.2s ease-in-out;
+        }
+        .red { background-color: red; }
+        .blue { background-color: blue; }
+        .yellow { background-color: yellow; }
+        .green { background-color: green; }
+        .purple { background-color: purple; }
+    </style>
+</head>
+<body>
+    <div class="grid" id="grid">
+        <script>
+            const dotSize = 10; // Define o tamanho dos pontos
+            const gapSize = 2; // Espaço entre os pontos
+            const screenWidth = window.innerWidth; // Largura da tela
+            const screenHeight = window.innerHeight; // Altura da tela
+            const columns = Math.floor(screenWidth / (dotSize + gapSize)); // Número de colunas
+            const rows = Math.floor(screenHeight / (dotSize + gapSize)); // Número de linhas
+            const grid = document.getElementById("grid");
+            grid.style.gridTemplateColumns = `repeat(${columns}, ${dotSize}px)`;
+            grid.style.gridTemplateRows = `repeat(${rows}, ${dotSize}px)`;
+            
+            const colors = ["yellow", "green", "purple"]; // Cores adicionais
+            const colorValues = { "yellow": 1, "green": 2, "purple": 3 }; // Valores das cores
+            
+            let dots = [];
+            for (let i = 0; i < columns * rows; i++) {
+                let dot = document.createElement("div");
+                dot.classList.add("dot");
+                if (Math.random() < 0.1) { // 10% de chance de gerar um ponto colorido
+                    let randomColor = colors[Math.floor(Math.random() * colors.length)];
+                    dot.classList.add(randomColor);
+                    dot.dataset.value = colorValues[randomColor]; // Atribui um valor ao ponto colorido
+                }
+                grid.appendChild(dot);
+                dots.push(dot);
+            }
+            
+        </script>
+    </div>
+</body>
+</html>

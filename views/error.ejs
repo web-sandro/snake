@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Erro</title>
+    <link rel="stylesheet" href="/css/styles.css"> <!-- Seu arquivo CSS -->
+</head>
+<body>
+    <div class="error-container">
+        <h1><%= mensagem || 'Erro desconhecido' %></h1> <!-- Se não houver mensagem, exibe 'Erro desconhecido' -->
+        <h2>Código de erro: <%= error.status %></h2> <!-- Código do erro -->
+        <pre><%= error.stack %></pre> <!-- Detalhes do erro -->
+        <a href="/">Voltar para a página inicial</a>
+    </div>
+</body>
+</html>
