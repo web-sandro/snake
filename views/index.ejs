@@ -3,64 +3,155 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="public/style7.css">
     <title>Quadrado de Pontos</title>
-    <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: black;
-            overflow: hidden;
-        }
-        .grid {
-            display: grid;
-            gap: 0;
-        }
-        .dot {
-            width: 10px; /* Tamanho do ponto */
-            height: 10px;
-            background-color: gray;
-            border-radius: 50%;
-            transition: background-color 0.2s ease-in-out;
-        }
-        .red { background-color: red; }
-        .blue { background-color: blue; }
-        .yellow { background-color: yellow; }
-        .green { background-color: green; }
-        .purple { background-color: purple; }
-    </style>
 </head>
 <body>
-    <div class="grid" id="grid">
-        <script>
-            const dotSize = 10; // Define o tamanho dos pontos
-            const gapSize = 2; // Espaço entre os pontos
-            const screenWidth = window.innerWidth; // Largura da tela
-            const screenHeight = window.innerHeight; // Altura da tela
-            const columns = Math.floor(screenWidth / (dotSize + gapSize)); // Número de colunas
-            const rows = Math.floor(screenHeight / (dotSize + gapSize)); // Número de linhas
-            const grid = document.getElementById("grid");
-            grid.style.gridTemplateColumns = `repeat(${columns}, ${dotSize}px)`;
-            grid.style.gridTemplateRows = `repeat(${rows}, ${dotSize}px)`;
-            
-            const colors = ["yellow", "green", "purple"]; // Cores adicionais
-            const colorValues = { "yellow": 1, "green": 2, "purple": 3 }; // Valores das cores
-            
-            let dots = [];
-            for (let i = 0; i < columns * rows; i++) {
-                let dot = document.createElement("div");
-                dot.classList.add("dot");
-                if (Math.random() < 0.1) { // 10% de chance de gerar um ponto colorido
-                    let randomColor = colors[Math.floor(Math.random() * colors.length)];
-                    dot.classList.add(randomColor);
-                    dot.dataset.value = colorValues[randomColor]; // Atribui um valor ao ponto colorido
+        <div class="header">
+            <div class="header1">
+                <button onclick="startGame()">Iniciar Jogo</button>
+            </div>
+            <div class="header2">
+                <p class="p">Pontuação: <span id="score">0</span></p>
+            </div>
+            <div class="header3">
+                <p class="p">Comandos almentar velocidade (+) diminuir velocidade (-) direção  (&#8592;)  (&#8593;)  (&#8595;)  (&#8594;)</p>
+            </div>
+        </div>
+    </div cllass="caixa">
+        <div class="grid" id="grid">
+            <script>
+                const dotSize = 20; 
+                const gapSize = 3;
+                const screenWidth = window.innerWidth;
+                const screenHeight = window.innerHeight;
+                const columns = Math.floor(screenWidth / (dotSize + gapSize));
+                const rows = Math.floor(screenHeight / (dotSize + gapSize));
+                const grid = document.getElementById("grid");
+                const scoreElement = document.getElementById("score");
+
+                grid.style.gridTemplateColumns = `repeat(${columns}, ${dotSize}px)`;
+                grid.style.gridTemplateRows = `repeat(${rows}, ${dotSize}px)`;
+
+                const colors = ["yellow", "green", "purple", "red"];
+                const colorValues = { "yellow": 1, "green": 2, "purple": 3, "red": 0 };
+
+                let dots = [];
+                let score = 0;
+                let pos = Math.floor(rows / 2) * columns + Math.floor(columns / 2);
+                let direction = 1;
+                let speed = 500;
+                let tail = [];
+                let gameOver = false;
+                let redPos = -1;
+                let gameStarted = false;
+
+                for (let i = 0; i < columns * rows; i++) {
+                    let dot = document.createElement("div");
+                    dot.classList.add("dot");
+                    if (Math.random() < 0.1) {
+                        let randomColor = colors[Math.floor(Math.random() * colors.length)];
+                        dot.classList.add(randomColor);
+                        dot.dataset.value = colorValues[randomColor];
+                    }
+                    grid.appendChild(dot);
+                    dots.push(dot);
                 }
-                grid.appendChild(dot);
-                dots.push(dot);
-            }
-            
-        </script>
+
+                function updateLights() {
+                    if (gameOver) return;
+                    dots.forEach(dot => dot.classList.remove("black", "blue"));
+                    dots[pos].classList.add("blue");
+                    if (tail.length > 0) {
+                        tail.forEach(t => dots[t].classList.add("blue"));
+                    }
+                    dots[pos + direction]?.classList.add("black");
+
+                    if (Math.random() < 0.1 && redPos === -1) {
+                        redPos = Math.floor(Math.random() * (columns * rows));
+                        dots[redPos].classList.add("red");
+                    }
+
+                    if (redPos !== -1 && pos === redPos) {
+                        endGame();
+                    }
+                }
+
+                document.addEventListener("keydown", (e) => {
+                    if (!gameStarted) return;
+                    if (e.key === "ArrowRight" && (pos + 1) % columns !== 0) direction = 1;
+                    if (e.key === "ArrowLeft" && pos % columns !== 0) direction = -1;
+                    if (e.key === "ArrowUp" && pos - columns >= 0) direction = -columns;
+                    if (e.key === "ArrowDown" && pos + columns < columns * rows) direction = columns;
+                    if (e.key === "+") speed = Math.max(10, speed - 10);
+                    if (e.key === "-") speed = Math.min(500, speed + 10);
+                });
+
+                function moveLights() {
+                    if (gameOver) return;
+                    let newPos = pos + direction;
+
+                    if (newPos >= 0 && newPos < columns * rows && !(direction === 1 && pos % columns === columns - 1) && !(direction === -1 && pos % columns === 0)) {
+                        if (dots[newPos].classList.contains("yellow") || dots[newPos].classList.contains("green") || dots[newPos].classList.contains("purple")) {
+                            let color = dots[newPos].classList[1];
+                            score += colorValues[color];
+                            scoreElement.textContent = score;
+
+                            dots[newPos].classList.remove("yellow", "green", "purple");
+                            dots[newPos].classList.add("blue");
+                            tail.push(pos);
+
+                            let remainingColors = dots.some(dot => dot.classList.contains("yellow") || dot.classList.contains("green") || dot.classList.contains("purple"));
+                            if (!remainingColors) {
+                                alert(`Vitória! Você terminou com ${score} pontos!`);
+                                return;
+                            }
+                        }
+
+                        if (
+                            (direction === 1 && (pos % columns === columns - 1)) || // Bateu na borda direita
+                            (direction === -1 && (pos % columns === 0)) || // Bateu na borda esquerda
+                            (direction === -columns && pos < columns) || // Bateu no topo
+                            (direction === columns && pos >= columns * (rows - 1)) // Bateu no fundo
+                        ) {
+                            alert("Game Over! Você atingiu a borda!");
+                            location.reload(); // Recarrega a página
+
+                        }
+
+                        if (dots[newPos].classList.contains("red")) {
+                            dots[newPos].classList.remove("red");
+                            tail.push(false);
+                            alert(`GameOver! Fim de jogo! 👻. Pontuação final: ${score}`);
+                            location.reload();
+                        }
+
+                        tail.push(pos);
+                        if (tail.length > 2) {
+                            let tailEnd = tail.shift();
+                            dots[tailEnd].classList.remove("blue");
+                        }
+
+                        pos = newPos;
+                    }
+
+                    updateLights();
+                    setTimeout(moveLights, speed);
+                }
+
+                function startGame() {
+                    if (gameStarted) return;
+                    gameStarted = true;
+                    updateLights();
+                    moveLights();
+                }
+
+                function endGame() {
+                    gameOver = true;
+                    alert(`Fim de jogo! Sua pontuação final foi: ${score}`);
+                }
+            </script>
+        </div>
     </div>
 </body>
 </html>
