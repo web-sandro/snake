@@ -49,6 +49,44 @@
                 let redPos = -1;
                 let gameStarted = false;
 
+                let touchStartX = 0;
+                let touchStartY = 0;
+                let touchEndX = 0;
+                let touchEndY = 0;
+
+                document.addEventListener("touchstart", (e) => {
+                    if (!gameStarted) return;
+                    touchStartX = e.touches[0].clientX;
+                    touchStartY = e.touches[0].clientY;
+                });
+
+                document.addEventListener("touchend", (e) => {
+                    if (!gameStarted) return;
+                    touchEndX = e.changedTouches[0].clientX;
+                    touchEndY = e.changedTouches[0].clientY;
+                    handleSwipe();
+                });
+
+                function handleSwipe() {
+                    let diffX = touchEndX - touchStartX;
+                    let diffY = touchEndY - touchStartY;
+
+                    if (Math.abs(diffX) > Math.abs(diffY)) {
+                        if (diffX > 0 && (pos + 1) % columns !== 0) {
+                            direction = 1; // Direita
+                        } else if (diffX < 0 && pos % columns !== 0) {
+                            direction = -1; // Esquerda
+                        }
+                    } else {
+                        if (diffY > 0 && pos + columns < columns * rows) {
+                            direction = columns; // Baixo
+                        } else if (diffY < 0 && pos - columns >= 0) {
+                            direction = -columns; // Cima
+                        }
+                    }
+                }
+
+
                 for (let i = 0; i < columns * rows; i++) {
                     let dot = document.createElement("div");
                     dot.classList.add("dot");
