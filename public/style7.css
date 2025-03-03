@@ -7,65 +7,107 @@ body {
     background-color: rgb(87, 132, 230);
     overflow: hidden;
 }
+
+/* Grid responsivo */
 .grid {
     display: grid;
     gap: 0;
     background: rgb(107, 150, 107);
 }
+
+/* Ajuste para pontos (dots) */
 .dot {
     width: 20px;
     height: 20px;
-    background-color:  rgb(107, 150, 107);
+    background-color: rgb(107, 150, 107);
     border-radius: 50%;
     transition: background-color 0.2s ease-in-out;
 }
+
+/* Cores */
 .black { background-color: black; }
 .red { background-color: red; }
 .blue { background-color: blue; }
 .yellow { background-color: yellow; }
 .green { background-color: green; }
 .purple { background-color: purple; }
+
+/* Botão */
 button {
-    padding: 3px 10px;
+    padding: 8px 15px;
     cursor: pointer;
     background-color: #008CBA;
     color: white;
     border: 1px solid #070707;
     border-radius: 5px;
     transition: background 0.3s;
+    font-size: 16px;
 }
+
 button:hover {
     background-color: #005f7a;
 }
 
+/* Cabeçalho */
 .header {
     display: flex;
     gap: 5px;
-    margin: 5px;
     width: 86.5vw;
-    height: 20px;
+    height: 30px;
     margin: 5px;
 }
-.header1 {
-    width: 6.7vw;
-    height: 20px;
-}
-.header2 {
-    width: 15vw;
-    height: 20px;
-    color: white;
-}
-.header3 {
-    width: 50vw;
-    height: 20px;
-    color: white;
-}
-.header4 {
-    width: 15vw;
-    height: 20px;
-    color: white;
-}
+
+.header1 { width: 10vw; height: 30px; }
+.header2 { width: 20vw; height: 30px; color: white; }
+.header3 { width: 50vw; height: 30px; color: white; }
+
+/* Parágrafos */
 .p {
     margin: 0px;
     font-size: 20px;
+}
+
+/* Estilos para telefone (telas menores) */
+@media (max-width: 600px) {
+    body {
+        height: auto;
+        padding: 10px;
+        overflow: auto;
+    }
+
+    .grid {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 5px;
+    }
+
+    .dot {
+        width: 15px;
+        height: 15px;
+    }
+
+    .header {
+        flex-direction: column;
+        width: 100%;
+        height: auto;
+        gap: 10px;
+    }
+
+    .header1, .header2, .header3 {
+        width: 100%;
+        height: auto;
+        text-align: center;
+    }
+
+    button {
+        width: 100%;
+        padding: 10px;
+        font-size: 18px;
+    }
+
+    .p {
+        font-size: 18px;
+        text-align: center;
+    }
 }
