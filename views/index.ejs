@@ -49,6 +49,37 @@
                 let redPos = -1;
                 let gameStarted = false;
 
+                for (let i = 0; i < columns * rows; i++) {
+                    let dot = document.createElement("div");
+                    dot.classList.add("dot");
+                    if (Math.random() < 0.1) {
+                        let randomColor = colors[Math.floor(Math.random() * colors.length)];
+                        dot.classList.add(randomColor);
+                        dot.dataset.value = colorValues[randomColor];
+                    }
+                    grid.appendChild(dot);
+                    dots.push(dot);
+                }
+
+                function updateLights() {
+                    if (gameOver) return;
+                    dots.forEach(dot => dot.classList.remove("black", "blue"));
+                    dots[pos].classList.add("blue");
+                    if (tail.length > 0) {
+                        tail.forEach(t => dots[t].classList.add("blue"));
+                    }
+                    dots[pos + direction]?.classList.add("black");
+
+                    if (Math.random() < 0.1 && redPos === -1) {
+                        redPos = Math.floor(Math.random() * (columns * rows));
+                        dots[redPos].classList.add("red");
+                    }
+
+                    if (redPos !== -1 && pos === redPos) {
+                        endGame();
+                    }
+                }
+
                 let touchStartX = 0;
                 let touchStartY = 0;
                 let touchEndX = 0;
@@ -83,38 +114,6 @@
                         } else if (diffY < 0 && pos - columns >= 0) {
                             direction = -columns; // Cima
                         }
-                    }
-                }
-
-
-                for (let i = 0; i < columns * rows; i++) {
-                    let dot = document.createElement("div");
-                    dot.classList.add("dot");
-                    if (Math.random() < 0.1) {
-                        let randomColor = colors[Math.floor(Math.random() * colors.length)];
-                        dot.classList.add(randomColor);
-                        dot.dataset.value = colorValues[randomColor];
-                    }
-                    grid.appendChild(dot);
-                    dots.push(dot);
-                }
-
-                function updateLights() {
-                    if (gameOver) return;
-                    dots.forEach(dot => dot.classList.remove("black", "blue"));
-                    dots[pos].classList.add("blue");
-                    if (tail.length > 0) {
-                        tail.forEach(t => dots[t].classList.add("blue"));
-                    }
-                    dots[pos + direction]?.classList.add("black");
-
-                    if (Math.random() < 0.1 && redPos === -1) {
-                        redPos = Math.floor(Math.random() * (columns * rows));
-                        dots[redPos].classList.add("red");
-                    }
-
-                    if (redPos !== -1 && pos === redPos) {
-                        endGame();
                     }
                 }
 
