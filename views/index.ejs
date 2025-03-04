@@ -102,31 +102,46 @@
                 let diffX = touchEndX - touchStartX;
                 let diffY = touchEndY - touchStartY;
 
-                let angle = Math.atan2(diffY, diffX) * (180 / Math.PI); // Calcula o ângulo em graus
+                // Define um limite mínimo para considerar um swipe válido
+                let threshold = 30; 
 
-                    if (angle >= -45 && angle <= 45) {
-                        // Direita
-                        if ((pos + 1) % columns !== 0) {
-                            direction = 1;
+                    // Verifica se o movimento é significativo o suficiente
+                    if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > threshold) {
+                        // Movimento horizontal
+                        if (diffX > 0 && (pos + 1) % columns !== 0) {
+                            direction = 1; // Direita
+                        } else if (diffX < 0 && pos % columns !== 0) {
+                            direction = -1; // Esquerda
                         }
-                    } else if (angle >= 135 || angle <= -135) {
-                        // Esquerda
-                        if (pos % columns !== 0) {
-                            direction = -1;
-                        }
-                    } else if (angle > 45 && angle < 135) {
-                        // Baixo
-                        if (pos + columns < columns * rows) {
-                            direction = columns;
-                        }
-                    } else if (angle < -45 && angle > -135) {
-                        // Cima
-                        if (pos - columns >= 0) {
-                            direction = -columns;
+                    } else if (Math.abs(diffY) > threshold) {
+                        // Movimento vertical
+                        if (diffY > 0 && pos + columns < columns * rows) {
+                            direction = columns; // Baixo
+                        } else if (diffY < 0 && pos - columns >= 0) {
+                            direction = -columns; // Cima
                         }
                     }
                 }
 
+
+                // function handleSwipe() {
+                //     let diffX = touchEndX - touchStartX;
+                //     let diffY = touchEndY - touchStartY;
+
+                //     if (Math.abs(diffX) > Math.abs(diffY)) {
+                //         if (diffX > 0 && (pos + 1) % columns !== 0) {
+                //             direction = 1; // Direita
+                //         } else if (diffX < 0 && pos % columns !== 0) {
+                //             direction = -1; // Esquerda
+                //         }
+                //     } else {
+                //         if (diffY > 0 && pos + columns < columns * rows) {
+                //             direction = columns; // Baixo
+                //         } else if (diffY < 0 && pos - columns >= 0) {
+                //             direction = -columns; // Cima
+                //         }
+                //     }
+                // }
 
                 document.addEventListener("keydown", (e) => {
                     if (!gameStarted) return;
