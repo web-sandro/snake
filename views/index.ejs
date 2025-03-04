@@ -115,7 +115,7 @@
                         }
                     } else if (Math.abs(diffY) > threshold) {
                         // Movimento vertical
-                        if (diffY > 0 && pos + columns < columns * rows) {
+                        if (diffY > 0 && pos + columns < columns + rows) {
                             direction = columns; // Baixo
                         } else if (diffY < 0 && pos - columns >= 0) {
                             direction = -columns; // Cima
