@@ -99,49 +99,24 @@
                 });
 
                 function handleSwipe() {
-                let diffX = touchEndX - touchStartX;
-                let diffY = touchEndY - touchStartY;
+                    let diffX = touchEndX - touchStartX;
+                    let diffY = touchEndY - touchStartY;
 
-                // Define um limite mínimo para considerar um swipe válido
-                let threshold = 30; 
-
-                    // Verifica se o movimento é significativo o suficiente
-                    if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > threshold) {
-                        // Movimento horizontal
+                    if (Math.abs(diffX) > Math.abs(diffY)) {
                         if (diffX > 0 && (pos + 1) % columns !== 0) {
                             direction = 1; // Direita
                         } else if (diffX < 0 && pos % columns !== 0) {
                             direction = -1; // Esquerda
                         }
-                    } else if (Math.abs(diffY) > threshold) {
-                        // Movimento vertical
-                        if (diffY > 0 && pos + columns < columns + rows) {
+                        // Tem que arrumar esse else, indo para cima ou para baixo em 45 graus
+                    } else {
+                        if (diffY > 0 && pos + columns < columns * rows) {
                             direction = columns; // Baixo
                         } else if (diffY < 0 && pos - columns >= 0) {
                             direction = -columns; // Cima
                         }
                     }
                 }
-
-
-                // function handleSwipe() {
-                //     let diffX = touchEndX - touchStartX;
-                //     let diffY = touchEndY - touchStartY;
-
-                //     if (Math.abs(diffX) > Math.abs(diffY)) {
-                //         if (diffX > 0 && (pos + 1) % columns !== 0) {
-                //             direction = 1; // Direita
-                //         } else if (diffX < 0 && pos % columns !== 0) {
-                //             direction = -1; // Esquerda
-                //         }
-                //     } else {
-                //         if (diffY > 0 && pos + columns < columns * rows) {
-                //             direction = columns; // Baixo
-                //         } else if (diffY < 0 && pos - columns >= 0) {
-                //             direction = -columns; // Cima
-                //         }
-                //     }
-                // }
 
                 document.addEventListener("keydown", (e) => {
                     if (!gameStarted) return;
@@ -175,20 +150,20 @@
                         }
 
                         if (
-                            (direction === 1 && (pos % columns === columns - 1)) || // Bateu na borda direita
-                            (direction === -1 && (pos % columns === 0)) || // Bateu na borda esquerda
+                            (direction === 1 && (pos + 1) % columns === 0) || // Bateu na borda direita
+                            (direction === -1 && pos % columns === 0) || // Bateu na borda esquerda
                             (direction === -columns && pos < columns) || // Bateu no topo
-                            (direction === columns && pos >= columns * (rows - 1)) // Bateu no fundo
+                            (direction === columns && pos >= columns * rows) // Bateu no fundo
                         ) {
+                            console.log("Colisão detectada!"); // Adiciona um log para depuração
                             alert("Game Over! Você atingiu a borda!");
                             location.reload(); // Recarrega a página
-
-                        }
+                            }
 
                         if (dots[newPos].classList.contains("red")) {
                             dots[newPos].classList.remove("red");
                             tail.push(false);
-                            alert(`GameOver! Fim de jogo! 👻. Pontuação final: ${score}`);
+                            alert(`Atingil red! Fim de jogo! 👻. Pontuação final: ${score}`);
                             location.reload();
                         }
 
