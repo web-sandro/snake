@@ -109,7 +109,7 @@
                             direction = -1; // Esquerda
                         }
                     } else {
-                        if (diffY > 0 && pos + columns < columns <=0) {
+                        if (diffY > 0 && pos + columns !== 0) {
                             direction = columns; // Baixo
                         } else if (diffY < 0 && pos - columns >= 0) {
                             direction = -columns; // Cima
