@@ -80,7 +80,7 @@
                     }
                 }
 
-                 let touchStartX = 0;
+                let touchStartX = 0;
                 let touchStartY = 0;
                 let touchEndX = 0;
                 let touchEndY = 0;
@@ -99,23 +99,34 @@
                 });
 
                 function handleSwipe() {
-                    let diffX = touchEndX - touchStartX;
-                    let diffY = touchEndY - touchStartY;
+                let diffX = touchEndX - touchStartX;
+                let diffY = touchEndY - touchStartY;
 
-                    if (Math.abs(diffX) > Math.abs(diffY)) {
-                        if (diffX > 0 && (pos + 1) % columns !== 0) {
-                            direction = 1; // Direita
-                        } else if (diffX < 0 && pos % columns !== 0) {
-                            direction = -1; // Esquerda
+                let angle = Math.atan2(diffY, diffX) * (180 / Math.PI); // Calcula o ângulo em graus
+
+                    if (angle >= -45 && angle <= 45) {
+                        // Direita
+                        if ((pos + 1) % columns !== 0) {
+                            direction = 1;
                         }
-                    } else {
-                        if (diffY > 0 && pos + columns !== 0) {
-                            direction = columns; // Baixo
-                        } else if (diffY < 0 && pos - columns !== 0) {
-                            direction = -columns; // Cima
+                    } else if (angle >= 135 || angle <= -135) {
+                        // Esquerda
+                        if (pos % columns !== 0) {
+                            direction = -1;
+                        }
+                    } else if (angle > 45 && angle < 135) {
+                        // Baixo
+                        if (pos + columns < columns * rows) {
+                            direction = columns;
+                        }
+                    } else if (angle < -45 && angle > -135) {
+                        // Cima
+                        if (pos - columns >= 0) {
+                            direction = -columns;
                         }
                     }
-                }    
+                }
+
 
                 document.addEventListener("keydown", (e) => {
                     if (!gameStarted) return;
