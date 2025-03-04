@@ -111,7 +111,7 @@
                     } else {
                         if (diffY > 0 && pos + columns !== 0) {
                             direction = columns; // Baixo
-                        } else if (diffY < 0 && pos - columns >= 0) {
+                        } else if (diffY < 0 && pos - columns !== 0) {
                             direction = -columns; // Cima
                         }
                     }
