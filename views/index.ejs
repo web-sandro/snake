@@ -109,10 +109,10 @@
                             direction = -1; // Esquerda
                         }
                     } else {
-                        if (diffY > 0 && (pos + 1) % columns !== 0) {
-                            direction = 1; // Baixo
-                        } else if (diffY < 0 && pos % columns !== 0) {
-                            direction = -1; // Cima
+                        if (diffY > 0 && pos + columns < columns <=0) {
+                            direction = columns; // Baixo
+                        } else if (diffY < 0 && pos - columns >= 0) {
+                            direction = -columns; // Cima
                         }
                     }
                 }    
