@@ -102,23 +102,20 @@
                     let diffX = touchEndX - touchStartX;
                     let diffY = touchEndY - touchStartY;
 
-                   if (Math.abs(diffX) < 20 && Math.abs(diffY) < 20) return;
-
-    if (Math.abs(diffX) > Math.abs(diffY)) {
-        // Movimento horizontal
-        if (diffX > 0 && (pos + 1) % columns !== 0) {
-            direction = 1; // Direita
-        } else if (diffX < 0 && pos % columns !== 0) {
-            direction = -1; // Esquerda
-        }
-    } else {
-        // Movimento vertical
-        if (diffY > 0 && pos + columns < columns * rows) {
-            direction = columns; // Baixo
-        } else if (diffY < 0 && pos - columns >= 0) {
-            direction = -columns; // Cima
-        }
-    }
+                    if (Math.abs(diffX) > Math.abs(diffY)) {
+                        if (diffX > 0 && (pos + 1) % columns !== 0) {
+                            direction = 1; // Direita
+                        } else if (diffX < 0 && pos % columns !== 0) {
+                            direction = -1; // Esquerda
+                        }
+                        // Tem que arrumar esse else, indo para cima ou para baixo em 45 graus
+                    } else {
+                        if (diffY > 0 && pos + columns < columns * rows) {
+                            direction = columns; // Baixo
+                        } else if (diffY < 0 && pos - columns >= 0) {
+                            direction = -columns; // Cima
+                        }
+                    }
                 }
 
                 document.addEventListener("keydown", (e) => {
