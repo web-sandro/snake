@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="pt">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style7.css">
     <title>Snake </title>
 </head>
+
 <body>
+     <header>
         <div class="header">
             <div class="header1">
                 <button onclick="startGame()">Iniciar Jogo</button>
@@ -15,199 +18,208 @@
                 <p class="p">Pontuação: <span id="score">0</span></p>
             </div>
             <div class="header3">
-                <p class="p">Comandos almentar velocidade (+) diminuir velocidade (-),  direção  (&#8592;)  (&#8593;)  (&#8595;)  (&#8594;)</p>
+                <p class="p">
+                    Comandos: aumentar velocidade (+), diminuir velocidade (-), direção (←) (↑) (↓) (→)
+                </p>
             </div>
             <div class="header4">
-                <p class="p">( Red gameOver )</p>
+                <p class="p">(Red = Game Over)</p>
             </div>
         </div>
-    </div cllass="caixa">
-        <div class="grid" id="grid">
-            <script>
-                const dotSize = 20; 
-                const gapSize = 3;
-                const screenWidth = window.innerWidth;
-                const screenHeight = window.innerHeight;
-                const columns = Math.floor(screenWidth / (dotSize + gapSize));
-                const rows = Math.floor(screenHeight / (dotSize + gapSize));
-                const grid = document.getElementById("grid");
-                const scoreElement = document.getElementById("score");
+    </header>
 
-                grid.style.gridTemplateColumns = `repeat(${columns}, ${dotSize}px)`;
-                grid.style.gridTemplateRows = `repeat(${rows}, ${dotSize}px)`;
-
-                const colors = ["yellow", "green", "purple", "red"];
-                const colorValues = { "yellow": 1, "green": 2, "purple": 3, "red": 0 };
-
-                let dots = [];
-                let score = 0;
-                let pos = Math.floor(rows / 2) * columns + Math.floor(columns / 2);
-                let direction = 1;
-                let speed = 500;
-                let tail = [];
-                let gameOver = false;
-                let redPos = -1;
-                let gameStarted = false;
-
-                for (let i = 0; i < columns * rows; i++) {
-                    let dot = document.createElement("div");
-                    dot.classList.add("dot");
-                    if (Math.random() < 0.1) {
-                        let randomColor = colors[Math.floor(Math.random() * colors.length)];
-                        dot.classList.add(randomColor);
-                        dot.dataset.value = colorValues[randomColor];
-                    }
-                    grid.appendChild(dot);
-                    dots.push(dot);
-                }
-
-                function updateLights() {
-                    if (gameOver) return;
-                    dots.forEach(dot => dot.classList.remove("black", "blue"));
-                    dots[pos].classList.add("blue");
-                    if (tail.length > 0) {
-                        tail.forEach(t => dots[t].classList.add("blue"));
-                    }
-                    dots[pos + direction]?.classList.add("black");
-
-                    if (Math.random() < 0.1 && redPos === -1) {
-                        redPos = Math.floor(Math.random() * (columns * rows));
-                        dots[redPos].classList.add("red");
-                    }
-
-                    if (redPos !== -1 && pos === redPos) {
-                        endGame();
-                    }
-                }
-
-                let touchStartX = 0;
-                let touchStartY = 0;
-                let touchEndX = 0;
-                let touchEndY = 0;
-
-                document.addEventListener("touchstart", (e) => {
-                    if (!gameStarted) return;
-                    touchStartX = e.touches[0].clientX;
-                    touchStartY = e.touches[0].clientY;
-                });
-
-                document.addEventListener("touchend", (e) => {
-                    if (!gameStarted) return;
-                    touchEndX = e.changedTouches[0].clientX;
-                    touchEndY = e.changedTouches[0].clientY;
-                    handleSwipe();
-                });
-
-                function handleSwipe() {
-                    let diffX = touchEndX - touchStartX;
-                    let diffY = touchEndY - touchStartY;
-                
-                    // Ignore swipes muito curtos
-                    if (Math.abs(diffX) < 20 && Math.abs(diffY) < 20) return;
-                
-                    if (Math.abs(diffX) > Math.abs(diffY)) {
-                        // Movimento horizontal
-                        if (diffX > 0 && (pos + 1) % columns !== 0) {
-                            direction = 1; // Direita
-                        } else if (diffX < 0 && pos % columns !== 0) {
-                            direction = -1; // Esquerda
-                        }
-                    } else {
-                        // Movimento vertical
-                        if (diffY > 0 && pos + columns < columns * rows) {
-                            direction = columns; // Baixo
-                        } else if (diffY < 0 && pos - columns >= 0) {
-                            direction = -columns; // Cima
-                        }
-                    }
-                }
-
-                document.addEventListener("keydown", (e) => {
-                    if (!gameStarted) return;
-                    if (e.key === "ArrowRight" && (pos + 1) % columns !== 0) direction = 1;
-                    if (e.key === "ArrowLeft" && pos % columns !== 0) direction = -1;
-                    if (e.key === "ArrowUp" && pos - columns >= 0) direction = -columns;
-                    if (e.key === "ArrowDown" && pos + columns < columns * rows) direction = columns;
-                    if (e.key === "+") speed = Math.max(10, speed - 10);
-                    if (e.key === "-") speed = Math.min(500, speed + 10);
-                });
-
-                function moveLights() {
-                    if (gameOver) return;
-                    let newPos = pos + direction;
-
-                    if (newPos >= 0 && newPos < columns * rows && !(direction === 1 && pos % columns === columns - 1) && !(direction === -1 && pos % columns === 0)) {
-                        if (dots[newPos].classList.contains("yellow") || dots[newPos].classList.contains("green") || dots[newPos].classList.contains("purple")) {
-                            let color = dots[newPos].classList[1];
-                            score += colorValues[color];
-                            scoreElement.textContent = score;
-
-                            dots[newPos].classList.remove("yellow", "green", "purple");
-                            dots[newPos].classList.add("blue");
-                            tail.push(pos);
-
-                            let remainingColors = dots.some(dot => dot.classList.contains("yellow") || dot.classList.contains("green") || dot.classList.contains("purple"));
-                            if (!remainingColors) {
-                                alert(`Vitória! Você terminou com ${score} pontos!`);
-                                return;
-                            }
-                        }
-
-                        if (
-                            (direction === 1 && (pos + 1) % columns === 0) || // Bateu na borda direita
-                            (direction === -1 && pos % columns === 0) || // Bateu na borda esquerda
-                            (direction === -columns && pos < columns) || // Bateu no topo
-                            (direction === columns && pos >= columns * rows) // Bateu no fundo
-                        ) {
-                            console.log("Colisão detectada!"); // Adiciona um log para depuração
-                            alert("Game Over! Você atingiu a borda!");
-                            location.reload(); // Recarrega a página
-                            }
-
-                        if (dots[newPos].classList.contains("red")) {
-                            dots[newPos].classList.remove("red");
-                            tail.push(false);
-                            alert(`Atingil red! Fim de jogo! 👻. Pontuação final: ${score}`);
-                            location.reload();
-                        }
-
-                        tail.push(pos);
-                        if (tail.length > 2) {
-                            let tailEnd = tail.shift();
-                            dots[tailEnd].classList.remove("blue");
-                        }
-
-                        pos = newPos;
-                    }
-
-                    updateLights();
-                    setTimeout(moveLights, speed);
-                }
-
-                function startGame() {
-                    if (gameStarted) return;
-                    gameStarted = true;
-                    updateLights();
-                    moveLights();
-                }
-
-                function endGame() {
-                    gameOver = true;
-                    alert(`Fim de jogo! Sua pontuação final foi: ${score}`);
-                }
-            </script>
+    <main>
+        <div class="caixa">
+            <div class="grid" id="grid"></div>
         </div>
-    </div>
-    <footer class="footer1">
+    </main>
+
+     <footer class="footer1">
         <div class="container-3">
             <div class="footer">
                 <div class="column">
                     <ul>
-                        <li>: litoralnortesoftware@gmail.com</li>
+                       < / > &copy;2025 litoralnortesoftware@gmail.com
                     </ul>
                 </div>
-            </div> 
+            </div>
         </div>
     </footer>
+        <script>
+            const dotSize = 20;
+            const gapSize = 3;
+            const screenWidth = window.innerWidth;
+            const screenHeight = window.innerHeight;
+            const columns = Math.floor(screenWidth / (dotSize + gapSize));
+            const rows = Math.floor(screenHeight / (dotSize + gapSize));
+            const grid = document.getElementById("grid");
+            const scoreElement = document.getElementById("score");
+
+            grid.style.gridTemplateColumns = `repeat(${columns}, ${dotSize}px)`;
+            grid.style.gridTemplateRows = `repeat(${rows}, ${dotSize}px)`;
+
+            const colors = ["yellow", "green", "purple", "red"];
+            const colorValues = { "yellow": 1, "green": 2, "purple": 3, "red": 0 };
+
+            let dots = [];
+            let score = 0;
+            let pos = Math.floor(rows / 2) * columns + Math.floor(columns / 2);
+            let direction = 1;
+            let speed = 500;
+            let tail = [];
+            let gameOver = false;
+            let redPos = -1;
+            let gameStarted = false;
+
+            for (let i = 0; i < columns * rows; i++) {
+                let dot = document.createElement("div");
+                dot.classList.add("dot");
+                const isTop = i < columns;
+                const isBottom = i >= columns * (rows - 1);
+                const isLeft = i % columns === 0;
+                const isRight = i % columns === columns - 1;
+
+                if (isTop || isBottom || isLeft || isRight) {
+                    dot.classList.add("red");
+                    dot.dataset.value = colorValues["red"];
+                } else if (Math.random() < 0.1) {
+                    let randomColor = colors[Math.floor(Math.random() * (colors.length - 1))]; // evita vermelho aleatório
+                    dot.classList.add(randomColor);
+                    dot.dataset.value = colorValues[randomColor];
+                }
+
+                grid.appendChild(dot);
+                dots.push(dot);
+            }
+
+            function updateLights() {
+                if (gameOver) return;
+                dots.forEach(dot => dot.classList.remove("black", "blue"));
+                dots[pos].classList.add("blue");
+                if (tail.length > 0) {
+                    tail.forEach(t => dots[t].classList.add("blue"));
+                }
+                dots[pos + direction]?.classList.add("black");
+
+                if (Math.random() < 0.1 && redPos === -1) {
+                    redPos = Math.floor(Math.random() * (columns * rows));
+                    dots[redPos].classList.add("red");
+                }
+
+                if (redPos !== -1 && pos === redPos) {
+                    endGame();
+                }
+            }
+
+            let touchStartX = 0;
+            let touchStartY = 0;
+            let touchEndX = 0;
+            let touchEndY = 0;
+
+            document.addEventListener("touchstart", (e) => {
+                if (!gameStarted) return;
+                touchStartX = e.touches[0].clientX;
+                touchStartY = e.touches[0].clientY;
+            });
+
+            document.addEventListener("touchend", (e) => {
+                if (!gameStarted) return;
+                touchEndX = e.changedTouches[0].clientX;
+                touchEndY = e.changedTouches[0].clientY;
+                handleSwipe();
+            });
+
+            function handleSwipe() {
+                let diffX = touchEndX - touchStartX;
+                let diffY = touchEndY - touchStartY;
+                if (Math.abs(diffX) < 20 && Math.abs(diffY) < 20) return;
+
+                if (Math.abs(diffX) > Math.abs(diffY)) {
+                    if (diffX > 0 && (pos + 1) % columns !== 0) direction = 1;
+                    else if (diffX < 0 && pos % columns !== 0) direction = -1;
+                } else {
+                    if (diffY > 0 && pos + columns < columns * rows) direction = columns;
+                    else if (diffY < 0 && pos - columns >= 0) direction = -columns;
+                }
+            }
+
+            document.addEventListener("keydown", (e) => {
+                if (!gameStarted) return;
+                if (e.key === "ArrowRight" && (pos + 1) % columns !== 0) direction = 1;
+                if (e.key === "ArrowLeft" && pos % columns !== 0) direction = -1;
+                if (e.key === "ArrowUp" && pos - columns >= 0) direction = -columns;
+                if (e.key === "ArrowDown" && pos + columns < columns * rows) direction = columns;
+                if (e.key === "+") speed = Math.max(10, speed - 10);
+                if (e.key === "-") speed = Math.min(500, speed + 10);
+            });
+
+            function moveLights() {
+                if (gameOver) return;
+                let newPos = pos + direction;
+
+                if (newPos >= 0 && newPos < columns * rows && !(direction === 1 && pos % columns === columns - 1) && !(direction === -1 && pos % columns === 0)) {
+                    if (dots[newPos].classList.contains("yellow") || dots[newPos].classList.contains("green") || dots[newPos].classList.contains("purple")) {
+                        let color = dots[newPos].classList[1];
+                        score += colorValues[color];
+                        scoreElement.textContent = score;
+
+                        dots[newPos].classList.remove("yellow", "green", "purple");
+                        dots[newPos].classList.add("blue");
+                        tail.push(pos);
+
+                        let remainingColors = dots.some(dot => dot.classList.contains("yellow") || dot.classList.contains("green") || dot.classList.contains("purple"));
+                        if (!remainingColors) {
+                            alert(`Vitória! Você terminou com ${score} pontos!`);
+                            return;
+                        }
+                    }
+
+                    if (
+                        (direction === 1 && (pos + 1) % columns === 0) || // Bateu na borda direita
+                        (direction === -1 && pos % columns === 0) || // Bateu na borda esquerda
+                        (direction === -columns && pos < columns) ||  // Bateu no topo
+                        (direction === columns && pos >= columns * rows) // Bateu no fundo
+                    ) {
+                        alert("Game Over! Você atingiu a borda!");
+                        gameOver = true;
+                        return;
+                    }
+
+                    if (dots[newPos].classList.contains("red")) {
+                        dots[newPos].classList.remove("red");
+                        tail.push(false);
+                        alert(`Atingil red! Fim de jogo! 👻. Pontuação final: ${score}`);
+                        location.reload();
+                    }
+
+                    tail.push(pos);
+                    if (tail.length > 2) {
+                        let tailEnd = tail.shift();
+                        dots[tailEnd].classList.remove("blue");
+                    }
+
+                    pos = newPos;
+                }
+
+                updateLights();
+                setTimeout(moveLights, speed);
+            }
+
+            function startGame() {
+                if (gameStarted) return;
+                gameStarted = true;
+                updateLights();
+                moveLights();
+            }
+
+            function endGame() {
+                gameOver = true;
+                gameStarted = false;
+                alert(`Fim de jogo! Sua pontuação final foi: ${score}`);
+            }
+        </script>
+    </div>
+    </div>
 </body>
+
 </html>
