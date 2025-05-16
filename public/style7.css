@@ -137,7 +137,7 @@ html, body {
 @media (max-width: 600px) {
 
      .main-container {
-        height: calc(70vh - 150px); /* 5% a menos do total da viewport */
+        height: calc(70vh - 140px); /* 5% a menos do total da viewport */
     }
 
     .header1 button {
