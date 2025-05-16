@@ -55,8 +55,13 @@
             const grid = document.getElementById("grid");
             const scoreElement = document.getElementById("score");
 
-            grid.style.gridTemplateColumns = `repeat(${columns}, ${dotSize}px)`;
-            grid.style.gridTemplateRows = `repeat(${rows}, ${dotSize}px)`;
+                if (window.innerWidth <= 600) {
+                    grid.style.gridTemplateColumns = "repeat(38, 10px)";
+                    grid.style.gridTemplateRows = "repeat(20, 10px)";
+                } else {
+                    grid.style.gridTemplateColumns = `repeat(${columns}, ${dotSize}px)`;
+                    grid.style.gridTemplateRows = `repeat(${rows}, ${dotSize}px)`;
+                }
 
             const colors = ["yellow", "green", "purple", "red"];
             const colorValues = { "yellow": 1, "green": 2, "purple": 3, "red": 0 };
