@@ -52,8 +52,9 @@
             const screenHeight = window.innerHeight;
             const columns = Math.floor(screenWidth / (dotSize + gapSize));
             const rows = Math.floor(screenHeight / (dotSize + gapSize));
-            const grid = document.getElementById("grid");
             const scoreElement = document.getElementById("score");
+
+            const grid = document.getElementById("grid");
 
             if (window.innerWidth <= 600) {
                 grid.style.gridTemplateColumns = "repeat(38, 10px)";
@@ -99,7 +100,7 @@
 
             function updateLights() {
                 if (gameOver) return;
-                dots.forEach(dot => dot.classList.remove("blue"));
+                dots.forEach(dot => dot.classList.remove("black", "blue"));
                 dots[pos].classList.add("blue");
                 if (tail.length > 0) {
                     tail.forEach(t => dots[t].classList.add("blue"));
