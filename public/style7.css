@@ -133,6 +133,12 @@ html, body {
 .container-3 li {
     font-size: 14px;
 }
+.caixa {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
 
 /* Regras para tela pequena */
 @media (max-width: 600px) {
