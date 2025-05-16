@@ -174,17 +174,6 @@
                         }
                     }
 
-                    if (
-                        (direction === 1 && (pos + 1) % columns === 0) || // Bateu na borda direita
-                        (direction === -1 && pos % columns === 0) || // Bateu na borda esquerda
-                        (direction === -columns && pos < columns) ||  // Bateu no topo
-                        (direction === columns && pos >= columns * rows) // Bateu no fundo
-                    ) {
-                        alert("Game Over! Você atingiu a borda!");
-                        gameOver = true;
-                        return;
-                    }
-
                     if (dots[newPos].classList.contains("red")) {
                         dots[newPos].classList.remove("red");
                         tail.push(false);
