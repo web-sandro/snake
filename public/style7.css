@@ -119,6 +119,7 @@ html, body {
     padding: 10px;
     text-align: center;
     border-top: 2px solid #444;
+    border-bottom: 10px;
 }
 
 /* Lista no rodapé */
