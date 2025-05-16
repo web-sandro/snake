@@ -59,7 +59,7 @@ html, body {
     align-content: center;
     background-color: #484945;
     max-width: 100%;
-    max-height: 95%;
+    max-height: 100%;
     touch-action: manipulation;
 }
 
@@ -135,17 +135,9 @@ html, body {
 /* Regras para tela pequena */
 @media (max-width: 600px) {
 
-    /* Grid fixo e responsivo */
-.grid {
-    display: grid;
-    gap: 0px;
-    justify-content: center;
-    align-content: center;
-    background-color: #484945;
-    max-width: 100%;
-    max-height: 90%;
-    touch-action: manipulation;
-}
+     .main-container {
+        height: calc(95vh - 150px); /* 5% a menos do total da viewport */
+    }
 
     .header1 button {
         font-size: 14px;
