@@ -94,12 +94,11 @@
 
             function updateLights() {
                 if (gameOver) return;
-                dots.forEach(dot => dot.classList.remove("black", "blue"));
+                dots.forEach(dot => dot.classList.remove("blue"));
                 dots[pos].classList.add("blue");
                 if (tail.length > 0) {
                     tail.forEach(t => dots[t].classList.add("blue"));
                 }
-                dots[pos + direction]?.classList.add("black");
 
                 if (Math.random() < 0.1 && redPos === -1) {
                     redPos = Math.floor(Math.random() * (columns * rows));
