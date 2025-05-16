@@ -61,7 +61,7 @@ html, body {
     width: 100%;
     height: 100%;
     touch-action: manipulation;
-    margin-bottom: 1opx;
+    transform: translateY(-10px); /* Sobe o grid */
 }
 
 /* Dot padrão */
@@ -136,6 +136,10 @@ html, body {
 
 /* Regras para tela pequena */
 @media (max-width: 600px) {
+
+     .grid {
+        transform: translateY(-10px);
+    }
 
       html, body {
         height: 95vh;
