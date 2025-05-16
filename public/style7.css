@@ -6,6 +6,8 @@
 }
 
 html, body {
+    width: 100%;
+    height: 100%;
     font-family: Arial, sans-serif;
     background-color: #2d40eb;
     color: #fff;
@@ -45,7 +47,7 @@ html, body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: calc(100vh - 100px); /* Ajuste conforme a altura do header + footer */
+    height: calc(100vh - 150px); /* Ajuste conforme a altura do header + footer */
     padding: 5px;
 }
 
@@ -59,6 +61,7 @@ html, body {
     width: 100%;
     height: 100%;
     touch-action: manipulation;
+    margin-bottom: opx;
 }
 
 /* Dot padrão */
