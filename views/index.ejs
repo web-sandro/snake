@@ -50,19 +50,21 @@
             const gapSize = 1;
             const screenWidth = window.innerWidth;
             const screenHeight = window.innerHeight;
-            const columns = Math.floor(screenWidth / (dotSize + gapSize));
-            const rows = Math.floor(screenHeight / (dotSize + gapSize));
+
+            let columns, rows;
+
+            if (screenWidth <= 600) {
+                columns = 38;
+                rows = 53;
+            } else {
+                columns = Math.floor(screenWidth / (dotSize + gapSize));
+                rows = Math.floor(screenHeight / (dotSize + gapSize));
+            }
+            const grid = document.getElementById("grid");
             const scoreElement = document.getElementById("score");
 
-            const grid = document.getElementById("grid");
-
-            if (window.innerWidth <= 600) {
-                grid.style.gridTemplateColumns = "repeat(38, 10px)";
-                grid.style.gridTemplateRows = "repeat(20, 10px)";
-            } else {
-                grid.style.gridTemplateColumns = `repeat(${columns}, ${dotSize}px)`;
-                grid.style.gridTemplateRows = `repeat(${rows}, ${dotSize}px)`;
-            }
+            grid.style.gridTemplateColumns = `repeat(${columns}, ${dotSize}px)`;
+            grid.style.gridTemplateRows = `repeat(${rows}, ${dotSize}px)`;
 
             const colors = ["yellow", "green", "purple", "red"];
             const colorValues = { "yellow": 1, "green": 2, "purple": 3, "red": 0 };
