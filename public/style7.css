@@ -61,7 +61,7 @@ html, body {
     width: 100%;
     height: 100%;
     touch-action: manipulation;
-    transform: translateY(-15px); /* Sobe o grid */
+    transform: translateY(-10px); /* Sobe o grid */
 }
 
 /* Dot padrão */
