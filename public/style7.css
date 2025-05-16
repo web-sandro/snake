@@ -136,8 +136,8 @@ html, body {
 /* Regras para tela pequena */
 @media (max-width: 600px) {
 
-     .main-container {
-        height: calc(70vh - 140px); /* 5% a menos do total da viewport */
+      html, body {
+        height: 95vh;
     }
 
     .header1 button {
