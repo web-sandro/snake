@@ -135,16 +135,8 @@ html, body {
 /* Regras para tela pequena */
 @media (max-width: 600px) {
 
-    .main-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 80%; /* Ajuste conforme a altura do header + footer */
-    padding: 5px;
-}
-
     .header1 button {
-        font-size: 14px;
+        font-size: 12px;
         padding: 8px 16px;
     }
 
