@@ -139,7 +139,7 @@ html, body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100%; /* Ajuste conforme a altura do header + footer */
+    height: 80%; /* Ajuste conforme a altura do header + footer */
     padding: 5px;
 }
 
