@@ -133,11 +133,6 @@ html, body {
 .container-3 li {
     font-size: 14px;
 }
-.caixa {
-   
-    height: 500px;
-
-}
 
 /* Regras para tela pequena */
 @media (max-width: 600px) {
