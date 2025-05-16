@@ -49,6 +49,7 @@ html, body {
     align-items: center;
     height: calc(100vh - 150px); /* Ajuste conforme a altura do header + footer */
     padding: 5px;
+    margin-bottom: 5px;
 }
 
 /* Grid fixo e responsivo */
